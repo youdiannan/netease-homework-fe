@@ -12,9 +12,9 @@
     "web-vitals": "^1.1.0"
   },
   "scripts": {
-    "start": "react-app-wired start",
-    "build": "react-app-wired build",
-    "test": "react-app-wired test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
