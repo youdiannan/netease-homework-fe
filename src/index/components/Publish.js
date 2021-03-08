@@ -28,6 +28,7 @@ function Publish(props) {
   // 上传图片，返回图片上传后的url
   function uploadImg(e) {
     e.preventDefault();
+    let legalPostfixes = ['jpg', 'png', 'gif']
     let file = document.querySelector('#file').files[0];
     // 限制上传文件大小
     let fileSize = file.size / 1024; // kb
@@ -35,9 +36,21 @@ function Publish(props) {
       window.alert("上传文件大小不得超过1MB！");
       return;
     }
+    let filename = file.name;
+    if (filename.indexOf('.') === -1) {
+      window.alert("请上传图片格式文件");
+      return;
+    } 
+    let postfix = filename.split('.')[1];
+    if (legalPostfixes.indexOf(postfix) === -1) {
+      window.alert("请上传图片格式文件");
+      return;
+    }
+    
+    // 上传图片
     let formData = new FormData();
     formData.append("file", file);
-    axios.post('http://localhost:8080/upload', formData, {withCredentials: true}).then(res => console.log(res) || setProduct({
+    axios.post('/upload', formData, {withCredentials: true}).then(res => console.log(res) || setProduct({
       ...product,
       imgUrl: res.data.data.url
     }))
