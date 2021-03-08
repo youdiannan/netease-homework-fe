@@ -1,0 +1,74 @@
+.p-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* 撑开高度 */
+.p-container .wrapper {
+    overflow: auto;
+}
+
+.p-container .img-container{
+    float: left;
+    height: 40%;
+    width: 30%;
+    min-width: 300px;
+    min-height: 300px;
+    min-width: 300px;
+    height: 300px;
+    border: 1px solid #d9d9d9;
+    margin-right: 5%;
+}
+
+
+.p-container .cnt {
+    float: left;
+}
+
+.p-container .cnt .abstract {
+    display: block;
+    margin-top: 5%;
+}
+
+.p-container .price {
+    margin-top: 5%;
+}
+
+.p-container .price .unit {
+    color: #999;
+}
+
+.p-container .price .value {
+    margin-left: 2%;
+    color: #dd2147;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.p-container .num {
+    margin-top: 5%;
+}
+
+.p-container .full-desc {
+    clear: both;
+    margin-top: 5%;
+}
+
+.p-container .desc-title {
+    position: relative;
+    padding-bottom: 1%;
+}
+
+.p-container .desc-title::after {
+    content: "";
+    width: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.p-container .detail {
+    margin-top: 1%;
+}

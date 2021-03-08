@@ -1,13 +1,27 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* css reset */
+* {
+  margin : 0;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+body {
+  background: #f6f6f6;
+  font: 12px/1.5 tahoma, arial, Microsoft Yahei, sans-serif;  /* 行间距1.5倍 */
+}
+li {
+  list-style: none;
+}
+img {
+  display: block;
+  border: none;
+}
+label {
+  cursor: pointer;
+}
+input[type='checkbox'] {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
 }

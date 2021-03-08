@@ -12,6 +12,10 @@ const ProductService = {
     // 新增、编辑商品详情
     editProduct (publishForm) {
         return axios.post('http://localhost:8080/product', publishForm, {withCredentials: true}).then(res => res.data);
+    },
+    // 删除商品
+    delete (productId) {
+        return axios.delete(`http://localhost:8080/product/${productId}`, {withCredentials: true}).then(res => res.data);
     }
 }
 

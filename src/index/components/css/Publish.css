@@ -1,0 +1,77 @@
+.p-pub {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.p-pub .head {
+    position: relative;
+    padding: 2% 0;
+}
+
+.p-pub .head::after {
+    display: block;
+    content: "";
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.p-pub form {
+    margin-top: 2%;
+}
+
+.p-pub .edit-item {
+    font-size: 16px;
+    margin-bottom: 2%;
+}
+
+.p-pub .edit-item span{
+    width: 1em;
+    padding-right: 5px;
+    white-space: nowrap;
+    text-align: right;
+}
+
+.p-pub .edit-item input {
+    display: inline-block;
+    width: 80%;
+    padding: 4px;
+    border-radius: 4px;
+    vertical-align: middle;
+    border: 1px solid #d9d9d9;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.p-pub .edit-item input[type="radio"] {
+    width: 2%;
+}
+
+.p-pub .edit-item .inp-url,  .p-pub .edit-item .inp-file{
+    display: inline;
+    margin-right: 10px;
+}
+
+.p-pub .edit-item .desc {
+    vertical-align: top;
+}
+
+.p-pub .edit-item textarea {
+    height: auto;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 80%;
+    padding: 6px 10px;
+    line-height: 18px;
+    border-radius: 4px;
+    vertical-align: middle;
+    border: 1px solid #d9d9d9;
+    font-size: 14px;
+    background-color: #fff;
+}
+
+.p-pub .edit-item .price {
+    width: 20%;
+}

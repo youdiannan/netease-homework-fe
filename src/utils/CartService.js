@@ -9,8 +9,8 @@ const CartService = {
         return axios.post('http://localhost:8080/cart', cartForm, {withCredentials: true}).then(res => res.data);
     },
     // 结算
-    checkout (productIdList) {
-        return axios.get('http://localhost:8080/checkout', {withCredentials: true}).then(res => res.data);
+    checkout () {
+        return axios.get('http://localhost:8080/cart/checkout', {withCredentials: true}).then(res => res.data);
     }
 }
 

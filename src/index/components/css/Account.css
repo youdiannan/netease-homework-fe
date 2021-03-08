@@ -1,0 +1,48 @@
+.account {
+    width: 85%;
+    margin: 0 auto;
+}
+
+.account .a-head {
+    position: relative;
+    padding: 2% 0;
+}
+
+.account .a-head::after {
+    display: block;
+    content: "";
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    border-bottom: 1px solid #d9d9d9;
+}
+
+.account ul {
+    position: relative;
+    margin-top: 2%;
+}
+
+.account ul .item {
+    overflow: auto;
+    cursor: pointer;
+}
+
+.account .p-img {
+    display: block;
+    float: left;
+    height: 100px;
+    width: 100px;
+    margin-right: 2%;
+    border: 1px solid #d9d9d9;
+    cursor: pointer;
+}
+
+.account .p-container {
+    float: left;
+}
+
+.account .item {
+    padding: 5px 5px;
+    border-bottom: 1px solid #d9d9d9;
+}

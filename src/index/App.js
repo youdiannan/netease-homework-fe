@@ -8,13 +8,10 @@ import Publish from './components/Publish';
 import { useState, useEffect } from 'react';
 import UserService from 'utils/UserService';
 import UserType from 'common/UserType';
+import './App.css';
 
 function App() {
-  const [user, setUser] = useState({
-    id: null,
-    username: null,
-    userType: null
-  });
+  const [user, setUser] = useState(null); // 初始时用户未登录
   // mount时触发
   useEffect(() => {
     UserService.getCurrentUser().then(res => setUser(res.data));
@@ -22,26 +19,26 @@ function App() {
 
   function handleLogout(e) {
     e.preventDefault();
-    UserService.logout().then(res => setUser({}))
+    UserService.logout().then(res => setUser(null))
   }
+  
   return (
     <Router>
-      <div className="main">
         {/* Header部分 */}
         {
           user ?
             (
               <div className="header">
                 <div className="user">
-                  {(!user.userType || user.userType == UserType.BUYER) && <span>买家你好，</span> || <span>卖家你好，</span>}
-                  <span>{user.username || ''}!</span>
+                  {(!user.userType || user.userType == UserType.BUYER) ? <span>买家你好</span> : <span>卖家你好</span>}
+                  <span>{'，' + user.username || ''}!</span>
                   {!user.username ? <Link to="/login">[登录]</Link> :
                     <a onClick={handleLogout} href="#">[退出]</a>}
                 </div>
                 <ul className="nav">
                   <li key="index"><a href="/">首页</a></li>
                   {
-                    user.userType == UserType.BUYER ?
+                    user.userType === UserType.BUYER ?
                       [
                         <li key="account"><Link to="/account">账务</Link></li>,
                         <li key="cart"><Link to="/cart">购物车</Link></li>
@@ -63,30 +60,31 @@ function App() {
               </div>
             )
         }
+        
+        {/* 路由部分 */}
         <Switch>
           <Route path="/" exact={true}>
-            <ProductList></ProductList>
+            <ProductList user={user}></ProductList>
           </Route>
           <Route path="/login">
             <Login></Login>
           </Route>
-          <Route path="/detail/:productId">
-            <ProductDetail></ProductDetail>
+          <Route path="/product/:productId">
+            <ProductDetail user={user}></ProductDetail>
           </Route>
           <Route path="/cart">
-            <Cart></Cart>
+            <Cart user={user}></Cart>
           </Route>
           <Route path="/account" exact={true}>
-            <Account></Account>
+            <Account user={user}></Account>
           </Route>
           <Route path="/publish/:productId">
-            <Publish></Publish>
+            <Publish user={user}></Publish>
           </Route>
           <Route path="/publish" exact={true}>
-            <Publish></Publish>
+            <Publish user={user}></Publish>
           </Route>
         </Switch>
-      </div>
     </Router>
   );
 }
