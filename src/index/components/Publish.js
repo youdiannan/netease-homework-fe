@@ -50,7 +50,7 @@ function Publish(props) {
     // 上传图片
     let formData = new FormData();
     formData.append("file", file);
-    axios.post('/upload', formData, {withCredentials: true}).then(res => console.log(res) || setProduct({
+    axios.post('/api/upload', formData, {withCredentials: true}).then(res => console.log(res) || setProduct({
       ...product,
       imgUrl: res.data.data.url
     }))
