@@ -5,6 +5,10 @@ import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './css/Publish.css';
 
+import BaseConfig from 'common/BasicConfig';
+
+let ENV = BaseConfig.ENV;
+
 function Publish(props) {
   let history = useHistory();
   let user = props.user;
@@ -50,10 +54,17 @@ function Publish(props) {
     // 上传图片
     let formData = new FormData();
     formData.append("file", file);
-    axios.post('/api/upload', formData, {withCredentials: true}).then(res => console.log(res) || setProduct({
-      ...product,
-      imgUrl: res.data.data.url
-    }))
+    if (ENV === 'dev') {
+      axios.post('http://localhost:8080/api/upload', formData, {withCredentials: true}).then(res => res.data).then(res => window.alert('上传成功') || setProduct({
+        ...product,
+        imgUrl: res.data.url
+      })).catch(err => window.alert("上传失败"))
+    } else {
+      axios.post('/api/upload', formData).then(res => res.data).then(res => window.alert('上传成功') || setProduct({
+        ...product,
+        imgUrl: res.data.url
+      })).catch(err => window.alert("上传失败"))
+    }
   }
 
   // 提交表单

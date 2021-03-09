@@ -54,7 +54,9 @@
 
 .p-list li .img {
     position: relative;
-    padding-bottom: 100%;
+    width: 200px;
+    height: 250px;
+    /* padding-bottom: 100%; */
 }
 
 .p-list li img {

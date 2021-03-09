@@ -1,18 +1,32 @@
 import axios from 'axios';
-import DOMAIN_NAME from '../common/BasicConfig';
+import BaseConfig from '../common/BasicConfig';
+
+let ENV = BaseConfig.ENV;
 
 const UserService = {
     // 用户登录
     login (loginForm) {
-        return axios.post(DOMAIN_NAME + '/api/login', loginForm, {withCredentials: true}).then(res => res.data);
+        if (ENV === 'dev') {
+            return axios.post('http://localhost:8080/api/login', loginForm, {withCredentials: true}).then(res => res.data);
+        } else {
+            return axios.post('/api/login', loginForm).then(res => res.data);
+        }
     },
     // 退出
     logout () {
-        return axios.get(DOMAIN_NAME + '/api/logout', {withCredentials: true}).then(res => res.data);
+        if (ENV === 'dev') {
+            return axios.get('http://localhost:8080/api/logout', {withCredentials: true}).then(res => res.data);
+        } else {
+            return axios.get('/api/logout').then(res => res.data);
+        }
     },
     // 获取当前登录用户信息
     getCurrentUser () {
-        return axios.get(DOMAIN_NAME + '/api/user', {withCredentials: true}).then(res => res.data)
+        if (ENV === 'dev') {
+            return axios.get('http://localhost:8080/api/user', {withCredentials: true}).then(res => res.data)
+        } else {
+            return axios.get('/api/user').then(res => res.data)
+        }
     },
 }
 
