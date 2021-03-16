@@ -1,10 +1,16 @@
 import axios from 'axios';
-import DOMAIN_NAME from '../common/BasicConfig'
+import BaseConfig from '../common/BasicConfig';
+
+let ENV = BaseConfig.ENV;
 
 const AccountService = {
     // 查看已购买的商品
     list () {
-        return axios.get(DOMAIN_NAME + '/api/account', {withCredentials: true}).then(res => res.data);
+        if (ENV === 'dev') {
+            return axios.get('http://localhost:8080/api/account', {withCredentials: true}).then(res => res.data);
+        } else {
+            return axios.get('/api/account').then(res => res.data);
+        }
     }
 }
 

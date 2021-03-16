@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import ProductService from 'utils/ProductService';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, isValidElement } from 'react';
 import { useHistory } from 'react-router-dom';
 import './css/Publish.css';
 
@@ -23,11 +23,20 @@ function Publish(props) {
     price: null
   })
   const [usingUrl, setUsingUrl] = useState(true);
+  // 用于控制提示信息显示的状态变量
+  const [nameHint, setNameHint] = useState(false);
+  const [abstractHint, setAbstractHint] = useState(false);
+  const [fullDescHint, setFullDescHint] = useState(false);
+  const [imgHint, setImgHint] = useState(false);
+  const [priceHint, setPriceHint] = useState(false);
+
+  // didmount
   useEffect(() => {
     if (productId && productId !== '' ) {
       ProductService.getProductDetail(productId).then(res => setProduct(res.data));
     }
   }, [])
+
   
   // 上传图片，返回图片上传后的url
   function uploadImg(e) {
@@ -41,6 +50,7 @@ function Publish(props) {
       return;
     }
     let filename = file.name;
+    console.log(filename);
     if (filename.indexOf('.') === -1) {
       window.alert("请上传图片格式文件");
       return;
@@ -71,7 +81,54 @@ function Publish(props) {
   function handleSubmit(e) {
     e.preventDefault();
     let publishForm = product;
-    ProductService.editProduct(publishForm).then(res => history.push(`/product/${res.data}`));
+    // 参数校验
+    if(isValid(product)) {
+      ProductService.editProduct(publishForm).then(res => history.push(`/product/${res.data}`));
+    }
+  }
+
+  // 参数校验
+  function isValid(product) {
+    // 商品名称
+    let name = product.name;
+    if (!name || name.length < 2 || name.length > 80) {
+      setNameHint(true);
+    } else {
+      setNameHint(false);
+    }
+    
+    // 商品摘要
+    let abstract = product.productAbstract;
+    if (!abstract || abstract.length < 2 || abstract.length > 140) {
+      setAbstractHint(true);
+    } else {
+      setAbstractHint(false);
+    }
+
+    // 图片
+    let imgUrl = product.imgUrl;
+    if (!imgUrl) {
+      setImgHint(true);
+    } else {
+      setImgHint(false);
+    }
+
+    // 商品详细描述
+    let desc = product.description;
+    if (!desc || desc.length < 2 || desc.length > 1000) {
+      setFullDescHint(true);
+    } else {
+      setFullDescHint(false);
+    }
+
+    // 商品价格
+    let price = product.price;
+    let regPat = /^[0-9]+.?[0-9]{1,2}/
+    if (!price || !regPat.test(price)) {
+      setPriceHint(true);
+    } else {
+      setPriceHint(false);
+    }
   }
 
   return (
@@ -84,11 +141,13 @@ function Publish(props) {
           <span>标题：</span>
           <input type="text" name="name" value={product.name ? product.name : ''} 
           onChange={(e) => setProduct({...product, 'name': e.target.value})}/>
+          { nameHint ? <span className="hint">商品标题长度必须为2-80个字符</span> : null}
         </div>
         <div className="edit-item">
           <span>摘要：</span>
           <input type="text" name="productAbstract" value={product.productAbstract ? product.productAbstract : ''} 
           onChange={(e) => setProduct({...product, 'productAbstract': e.target.value})} />
+          { abstractHint ? <span className="hint">商品摘要长度必须为2-140个字符</span> : null}
         </div>
         <div className="edit-item">
           <span>图片：</span>
@@ -106,17 +165,20 @@ function Publish(props) {
             <input type="file" name="file" id="file" />
             <button className="upload-btn" onClick={uploadImg}>上传</button>
           </div>
+          { imgHint ? <span className="hint">图片不能为空</span> : null}
         </div>
         <div className="edit-item">
           <span className="desc">正文：</span>
           <textarea name="description" value={product.description ? product.description : ''} 
           rows="10" placeholder={"2-1000个字符"}
           onChange={(e) => setProduct({...product, 'description': e.target.value})} />
+          { fullDescHint ? <span className="hint">商品描述信息长度必须为2-1000个字符</span> : null}
         </div>
         <div className="edit-item">
           <span>价格：</span>
           <input className="price" type="text" name="price" value={product.price ? product.price : ''} 
           onChange={(e) => setProduct({...product, 'price': e.target.value})} />元
+          { priceHint ? <span className="hint">请检查价格是否合法：大于0元且最多包含两位小数</span> : null }
         </div>
         <input type="submit" value="保存" />
       </form>

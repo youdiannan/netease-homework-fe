@@ -114,3 +114,11 @@
     transform: rotate(-45deg);
     color: #eee;
 }
+
+.p-list .link {
+    color: blue;
+}
+
+.p-list .link:hover {
+    cursor: pointer;
+}
