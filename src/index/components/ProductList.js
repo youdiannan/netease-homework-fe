@@ -58,11 +58,13 @@ function ProductList(props) {
                 <ul>
                     {productList.map((product, index) =>
                     (
+                        // 卖家展示内容有差异: 未售出内容只展示没有交易过的商品
+                        !(user && user.userType === UserType.SELLER && viewNotTraded && product.traded)) ?
                         <li key={index}>
                             {/* <a href={`/product/${product.id}`}> */}
                             <a onClick={() => history.push({
                                 pathname: `/product/${product.id}`,
-                                state: { buyAble: product.traded && viewNotTraded }
+                                state: { buyAble: viewNotTraded || !product.traded }
                             })} className="link">
                                 <div className="img">
                                     <img src={product.imgUrl} alt={product.name}></img>
@@ -80,13 +82,14 @@ function ProductList(props) {
                                 }
                             </a>
                             {
-                                user && user.userType === UserType.SELLER && viewNotTraded ? 
+                                // 对于卖家，只有没有卖出的商品才能删除
+                                user && user.userType === UserType.SELLER && viewNotTraded && !product.traded ? 
                                 <button onClick={handleDelete(product)}>删除</button> 
-                                : ''
+                                : null
                             }
-                        </li>
+                        </li> : null
                     )
-                    )}
+                    }
                 </ul>
             </div>
         </div>

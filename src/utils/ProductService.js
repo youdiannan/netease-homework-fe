@@ -20,7 +20,15 @@ const ProductService = {
             return axios.get(`/api/product/${productId}`).then(res => res.data);
         }
     },
-    // 新增、编辑商品详情
+    // 添加商品
+    addProduct (publishForm) {
+        if (ENV === 'dev') {
+            return axios.put('http://localhost:8080/api/product', publishForm, {withCredentials: true}).then(res => res.data);
+        } else {
+            return axios.put('/api/product', publishForm).then(res => res.data);
+        }
+    },
+    // 编辑商品详情
     editProduct (publishForm) {
         if (ENV === 'dev') {
             return axios.post('http://localhost:8080/api/product', publishForm, {withCredentials: true}).then(res => res.data);

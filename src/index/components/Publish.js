@@ -83,16 +83,28 @@ function Publish(props) {
     let publishForm = product;
     // 参数校验
     if(isValid(product)) {
-      ProductService.editProduct(publishForm).then(res => history.push(`/product/${res.data}`));
+      if (!product.id) {
+        ProductService.addProduct(publishForm).then(res => history.push({
+          pathname: `/product/${res.data}`,
+          state: { buyAble: true }
+        }))
+      } else {
+        ProductService.editProduct(publishForm).then(res => history.push({
+          pathname: `/product/${res.data}`,
+          state: { buyAble: true }
+        }));
+      }
     }
   }
 
   // 参数校验
   function isValid(product) {
+    let valid = true;
     // 商品名称
     let name = product.name;
     if (!name || name.length < 2 || name.length > 80) {
       setNameHint(true);
+      valid = false;
     } else {
       setNameHint(false);
     }
@@ -101,6 +113,7 @@ function Publish(props) {
     let abstract = product.productAbstract;
     if (!abstract || abstract.length < 2 || abstract.length > 140) {
       setAbstractHint(true);
+      valid = false;
     } else {
       setAbstractHint(false);
     }
@@ -109,6 +122,7 @@ function Publish(props) {
     let imgUrl = product.imgUrl;
     if (!imgUrl) {
       setImgHint(true);
+      valid = false;
     } else {
       setImgHint(false);
     }
@@ -117,6 +131,7 @@ function Publish(props) {
     let desc = product.description;
     if (!desc || desc.length < 2 || desc.length > 1000) {
       setFullDescHint(true);
+      valid = false;
     } else {
       setFullDescHint(false);
     }
@@ -126,9 +141,12 @@ function Publish(props) {
     let validRegPat = /^[0-9]+.?[0-9]{1,2}/
     if (!price || !validRegPat.test(price)) {
       setPriceHint(true);
+      valid = false;
     } else {
       setPriceHint(false);
     }
+
+    return valid;
   }
 
   return (

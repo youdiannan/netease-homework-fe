@@ -68,16 +68,19 @@ function ProductDetail(props) {
                         <span className="unit">￥</span>
                         <span className="value">{productDetail.price}</span>
                     </div>
-                    <div className="num">
-                        <span>购买数量：</span><input type="number" value={count} onChange={(e) => {
-                            // 简单的参数校验
-                            let newCount = e.target.value;
-                            if (newCount < 0) {
-                                newCount = 0;
-                            }
-                            setCount(newCount)}
-                            }></input>
-                    </div>
+                    {
+                        user && user.userType === UserType.BUYER ?
+                        <div className="num">
+                            <span>购买数量：</span><input type="number" value={count} onChange={(e) => {
+                                // 简单的参数校验
+                                let newCount = e.target.value;
+                                if (newCount < 0) {
+                                    newCount = 0;
+                                }
+                                setCount(newCount)}
+                                }></input>
+                        </div> : null
+                    }
                     <div>
                         {
                             user ? user.userType === UserType.BUYER ?

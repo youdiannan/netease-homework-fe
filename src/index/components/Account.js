@@ -28,7 +28,10 @@ function AccountItem(props) {
     let item = props.item;
     let history = useHistory();
     return (
-        <li className="item"  onClick={() => history.push(`/product/${item.productId}`)}>
+        <li className="item"  onClick={() => history.push({
+            pathname: `/product/${item.productId}`,
+            state: { buyAble: false }
+        })}>
             {/* 商品图片 */}
             <img src={item.imgUrl} className="p-img"></img>
             <div className="p-container">

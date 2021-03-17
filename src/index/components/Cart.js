@@ -18,10 +18,13 @@ function Cart() {
     ), [])
 
     function handlePay() {
-        CartService.checkout().then(() => setCart({
-            cart,
-            cartItems: []
-        }))
+        CartService.checkout().then(() => {
+            setCart({
+                cart,
+                cartItems: []
+            })
+            window.alert("结算成功")
+        })
     }
 
     // 更新购物车
@@ -63,9 +66,12 @@ function Cart() {
             <ul>
                 {
                     cart.cartItems && cart.cartItems.map((cartItem, index) => (
-                        <li key={index} className="item" onClick={() => history.push(`/product/${cartItem.productId}`)}>
+                        <li key={index} className="item">
                             {/* 商品图片 */}
-                            <img src={cartItem.imgUrl} className="p-img"></img>
+                            <img src={cartItem.imgUrl} className="p-img"  onClick={() => history.push({
+                            pathname: `/product/${cartItem.productId}`,
+                            state: { buyAble: true }
+                        })}></img>
                             <div className="p-container">
                                 {/* 商品名 */}
                                 <h4>{cartItem.name}</h4>
