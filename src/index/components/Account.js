@@ -42,6 +42,7 @@ function AccountItem(props) {
                 <div className="p-cnt">
                     <span>数量：{item.count}</span>
                 </div>
+                <span className="trans-time">购买时间：{item.transTime}</span>
             </div>
         </li>
     )
