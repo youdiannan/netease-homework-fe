@@ -138,7 +138,7 @@ function Publish(props) {
 
     // 商品价格
     let price = product.price;
-    let validRegPat = /^[0-9]+.?[0-9]{1,2}/
+    let validRegPat = /^\d+(\.\d{1,2})?$/
     if (!price || !validRegPat.test(price)) {
       setPriceHint(true);
       valid = false;
