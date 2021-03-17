@@ -20,6 +20,9 @@ function Account(props) {
             <ul>
                 {accountItems}
             </ul>
+            <div className="total-price">
+                <span>总金额：￥{ (accountData.reduce((a, b) => a + b.totalAmount, 0)).toFixed(2) }</span>
+            </div>
         </div>
     )
 }
@@ -38,6 +41,7 @@ function AccountItem(props) {
                 {/* 商品名 */}
                 <h4>{item.productName}</h4>
                 <span className="abstract">{item.productAbstract}</span>
+                <br/>
                 <span className="price">单价: {item.price}</span>
                 <div className="p-cnt">
                     <span>数量：{item.count}</span>

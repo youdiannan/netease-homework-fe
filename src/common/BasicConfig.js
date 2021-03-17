@@ -1,5 +1,5 @@
 const basicConfig = {
-    ENV: 'dev'
+    ENV: 'prod'
 }
 
 export default basicConfig;

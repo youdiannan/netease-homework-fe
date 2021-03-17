@@ -75,3 +75,7 @@
 .p-pub .edit-item .price {
     width: 20%;
 }
+
+.p-pub .hint {
+    color: #e00;
+}

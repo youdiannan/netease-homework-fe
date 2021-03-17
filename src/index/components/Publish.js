@@ -159,13 +159,13 @@ function Publish(props) {
           <span>标题：</span>
           <input type="text" name="name" value={product.name ? product.name : ''} 
           onChange={(e) => setProduct({...product, 'name': e.target.value})}/>
-          { nameHint ? <span className="hint">商品标题长度必须为2-80个字符</span> : null}
+          { nameHint ? <span className="hint">*&nbsp;商品标题长度必须为2-80个字符</span> : null}
         </div>
         <div className="edit-item">
           <span>摘要：</span>
           <input type="text" name="productAbstract" value={product.productAbstract ? product.productAbstract : ''} 
           onChange={(e) => setProduct({...product, 'productAbstract': e.target.value})} />
-          { abstractHint ? <span className="hint">商品摘要长度必须为2-140个字符</span> : null}
+          { abstractHint ? <span className="hint">*&nbsp;商品摘要长度必须为2-140个字符</span> : null}
         </div>
         <div className="edit-item">
           <span>图片：</span>
@@ -183,20 +183,20 @@ function Publish(props) {
             <input type="file" name="file" id="file" />
             <button className="upload-btn" onClick={uploadImg}>上传</button>
           </div>
-          { imgHint ? <span className="hint">图片不能为空</span> : null}
+          { imgHint ? <span className="hint">*&nbsp;图片不能为空</span> : null}
         </div>
         <div className="edit-item">
           <span className="desc">正文：</span>
           <textarea name="description" value={product.description ? product.description : ''} 
           rows="10" placeholder={"2-1000个字符"}
           onChange={(e) => setProduct({...product, 'description': e.target.value})} />
-          { fullDescHint ? <span className="hint">商品描述信息长度必须为2-1000个字符</span> : null}
+          { fullDescHint ? <span className="hint">*&nbsp;商品描述信息长度必须为2-1000个字符</span> : null}
         </div>
         <div className="edit-item">
           <span>价格：</span>
           <input className="price" type="text" name="price" value={product.price ? product.price : ''} 
           onChange={(e) => setProduct({...product, 'price': e.target.value})} />元
-          { priceHint ? <span className="hint">请检查价格是否合法：大于0元且最多包含两位小数</span> : null }
+          { priceHint ? <span className="hint">*&nbsp;请检查价格是否合法：大于0元且最多包含两位小数</span> : null }
         </div>
         <input type="submit" value="保存" />
       </form>
