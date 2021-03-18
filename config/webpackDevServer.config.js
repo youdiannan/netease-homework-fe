@@ -111,6 +111,10 @@ module.exports = function (proxy, allowedHost) {
       //   },
       //   secure: false
       // }
+      '/img/**': {
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      }
     },
     before(app, server) {
       // Keep `evalSourceMapMiddleware` and `errorOverlayMiddleware`

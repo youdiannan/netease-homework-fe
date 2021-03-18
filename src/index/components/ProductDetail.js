@@ -4,6 +4,7 @@ import CartService from "utils/CartService";
 import { useState, useEffect } from "react";
 import UserType from 'common/UserType';
 import './css/ProductDetail.css';
+import { Button, InputNumber, message, Popconfirm } from 'antd';
 
 function ProductDetail(props) {
     let history = useHistory();
@@ -24,40 +25,48 @@ function ProductDetail(props) {
             description: null,
             count: count
         }
-        CartService.editCart(cartForm).then(res => console.log(res) || window.alert("添加成功"))
-        .catch(err => console.log(err) || window.alert("添加失败"));
+        CartService.editCart(cartForm).then(res => message.success("添加成功"))
+            .catch(err => message.error("添加失败"));
     }
 
     // 两个内部的子组件
     function BuyerOption() {
-        return [
-            buyAble ? 
-            <button className="cart-btn" onClick={handleEditCart}>添加至购物车</button> : 
-            <button disabled={true}>不可购买</button>
-            ,
-            productDetail.traded ? 
-            <div key="old-price">已购买<br />当时购买价格：
-                <ul>
-                    {
-                        productDetail.oldPriceList.map((price, index) => 
-                            <li key={index}>￥{price}</li>
-                        )
-                    }
-                </ul>
-            </div> : null
-        ]
+        return (
+            <div className="option">
+                {[buyAble ?
+                    <Popconfirm title="确认添加至购物车？" onConfirm={handleEditCart} okText="确定" cancelText="取消"> 
+                        <Button type="primary">添加至购物车</Button>
+                    </Popconfirm> :
+                    <Button disabled>不可购买</Button>
+                    ,
+                productDetail.traded ?
+                    <div className="old-price" key={"old-price"}>
+                        <span className="bought">已购买</span>
+                        当时购买价格：
+                        <ul>
+                            {
+                                productDetail.oldPriceList.map((price, index) =>
+                                    <li key={index}>￥{price}</li>
+                                )
+                            }
+                        </ul>
+                    </div> : null
+                ]}
+            </div>
+        )
     }
-    
+
     function SellerOption() {
         return (
-            <a href={`/publish/${productId}`}>编辑</a>
+            <div className="option">
+                <Button type="primary"><a href={`/publish/${productId}`}>编辑</a></Button>
+            </div>
         )
     }
 
     return (
-        <div className="p-container">
+        <div className="p-detail">
             <div className="wrapper">
-
                 <div className="img-container">
                     <img src={productDetail.imgUrl}></img>
                 </div>
@@ -70,16 +79,14 @@ function ProductDetail(props) {
                     </div>
                     {
                         user && user.userType === UserType.BUYER ?
-                        <div className="num">
-                            <span>购买数量：</span><input type="number" value={count} onChange={(e) => {
-                                // 简单的参数校验
-                                let newCount = e.target.value;
-                                if (newCount < 0) {
-                                    newCount = 0;
+                            <div className="num">
+                                <span>购买数量：</span>
+                                <InputNumber min={0} value={count} onChange={(v) => {
+                                    setCount(v);
+                                    console.log(count);
                                 }
-                                setCount(newCount)}
-                                }></input>
-                        </div> : null
+                                }></InputNumber>
+                            </div> : null
                     }
                     <div>
                         {
@@ -94,7 +101,7 @@ function ProductDetail(props) {
                 <div className="desc-title">
                     <h2>详细信息</h2>
                 </div>
-                <div className="detail">{productDetail.description}</div>
+                <div className="detail"><pre>{productDetail.description}</pre></div>
             </div>
         </div>
     )

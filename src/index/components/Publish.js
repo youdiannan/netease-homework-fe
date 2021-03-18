@@ -4,10 +4,13 @@ import ProductService from 'utils/ProductService';
 import { useState, useEffect, isValidElement } from 'react';
 import { useHistory } from 'react-router-dom';
 import './css/Publish.css';
-
+import { Input, Radio, Upload, message, Button } from 'antd';
 import BaseConfig from 'common/BasicConfig';
+import { UploadOutlined } from '../../../node_modules/@ant-design/icons';
+import ResponseStatus from '../../common/ResponseStatus';
 
 let ENV = BaseConfig.ENV;
+const { TextArea } = Input;
 
 function Publish(props) {
   let history = useHistory();
@@ -22,13 +25,18 @@ function Publish(props) {
     imgUrl: null,
     price: null
   })
-  const [usingUrl, setUsingUrl] = useState(true);
+
+  const [uploadType, setUploadType] = useState("url");
   // 用于控制提示信息显示的状态变量
   const [nameHint, setNameHint] = useState(false);
   const [abstractHint, setAbstractHint] = useState(false);
   const [fullDescHint, setFullDescHint] = useState(false);
   const [imgHint, setImgHint] = useState(false);
   const [priceHint, setPriceHint] = useState(false);
+
+  // 上传文件
+  const [file, setFile] = useState();
+  
 
   // didmount
   useEffect(() => {
@@ -41,23 +49,25 @@ function Publish(props) {
   // 上传图片，返回图片上传后的url
   function uploadImg(e) {
     e.preventDefault();
+    if (!file) {
+      message.warn("请选择文件");
+      return;
+    }
     let legalPostfixes = ['jpg', 'png', 'gif']
-    let file = document.querySelector('#file').files[0];
     // 限制上传文件大小
     let fileSize = file.size / 1024; // kb
     if (fileSize > 1024) {
-      window.alert("上传文件大小不得超过1MB！");
+      message.warn("上传文件大小不得超过1MB！");
       return;
     }
     let filename = file.name;
-    console.log(filename);
     if (filename.indexOf('.') === -1) {
-      window.alert("请上传图片格式文件");
+      message.warn("请上传图片格式文件");
       return;
     } 
     let postfix = filename.split('.')[1];
     if (legalPostfixes.indexOf(postfix) === -1) {
-      window.alert("请上传图片格式文件");
+      message.warn("请上传图片格式文件");
       return;
     }
     
@@ -65,15 +75,31 @@ function Publish(props) {
     let formData = new FormData();
     formData.append("file", file);
     if (ENV === 'dev') {
-      axios.post('http://localhost:8080/api/upload', formData, {withCredentials: true}).then(res => res.data).then(res => window.alert('上传成功') || setProduct({
-        ...product,
-        imgUrl: res.data.url
-      })).catch(err => window.alert("上传失败"))
+      axios.post('http://localhost:8080/api/upload', formData, {withCredentials: true}).then(res => res.data).
+      then(res => {
+        if (res.code === ResponseStatus.SUCCESS) {
+          message.success('上传成功');
+          setProduct({
+          ...product,
+          imgUrl: res.data.url
+          })
+        } else {
+          message.error(res.message);
+        }
+      }).catch(err => message.error("上传失败"))
     } else {
-      axios.post('/api/upload', formData).then(res => res.data).then(res => window.alert('上传成功') || setProduct({
-        ...product,
-        imgUrl: res.data.url
-      })).catch(err => window.alert("上传失败"))
+      axios.post('/api/upload', formData).then(res => res.data).
+      then(res => {
+        if (res.code === ResponseStatus.SUCCESS) {
+          message.success('上传成功');
+          setProduct({
+          ...product,
+          imgUrl: res.data.url
+          })
+        } else {
+          message.error(res.message);
+        }
+      }).catch(err => message.error("上传失败"))
     }
   }
 
@@ -157,48 +183,50 @@ function Publish(props) {
       <form onSubmit={handleSubmit}>
         <div className="edit-item">
           <span>标题：</span>
-          <input type="text" name="name" value={product.name ? product.name : ''} 
+          <Input allowClear value={product.name ? product.name : '' } maxLength={80} placeholder={"2-80个字符"}
           onChange={(e) => setProduct({...product, 'name': e.target.value})}/>
           { nameHint ? <span className="hint">*&nbsp;商品标题长度必须为2-80个字符</span> : null}
         </div>
         <div className="edit-item">
           <span>摘要：</span>
-          <input type="text" name="productAbstract" value={product.productAbstract ? product.productAbstract : ''} 
+          <Input allowClear value={product.productAbstract ? product.productAbstract : ''} placeholder={"2-140个字符"}
           onChange={(e) => setProduct({...product, 'productAbstract': e.target.value})} />
           { abstractHint ? <span className="hint">*&nbsp;商品摘要长度必须为2-140个字符</span> : null}
         </div>
         <div className="edit-item">
           <span>图片：</span>
-          <div className="inp-url">
-            <input type="radio" name="pic" value="url" checked={usingUrl} onChange={() => setUsingUrl(true)} />图片地址
-          </div>
-          <div className="inp-file">
-            <input type="radio" name="pic" value="file" onChange={() => setUsingUrl(false)} />上传图片
-          </div>
-          <div style={{display: !usingUrl? "none": "block"}}>
-            <input type="text" name="imgUrl" value={product.imgUrl ? product.imgUrl : ''} 
+          <Radio.Group onChange={(e) => setUploadType(e.target.value)} value={uploadType}>
+            <Radio value={"url"}>图片地址</Radio>
+            <Radio value={"file"}>上传图片</Radio>
+          </Radio.Group>
+          <div style={{display: uploadType === "file" ? "none": "block"}}>
+            <Input allowClear value={product.imgUrl ? product.imgUrl : ''} 
             onChange={(e) => setProduct({...product, 'imgUrl': e.target.value})} />
           </div>
-          <div style={{display: usingUrl? "none": "block"}}>
-            <input type="file" name="file" id="file" />
-            <button className="upload-btn" onClick={uploadImg}>上传</button>
+          <div style={{display: uploadType === "url" ? "none": "block"}}>
+            <Upload beforeUpload={file => {
+              setFile(file);
+              return false;
+            }}>
+              <Button icon={<UploadOutlined />}>选择文件</Button>
+            </Upload>
+            <Button onClick={uploadImg}>上传</Button>
           </div>
           { imgHint ? <span className="hint">*&nbsp;图片不能为空</span> : null}
         </div>
         <div className="edit-item">
           <span className="desc">正文：</span>
-          <textarea name="description" value={product.description ? product.description : ''} 
-          rows="10" placeholder={"2-1000个字符"}
-          onChange={(e) => setProduct({...product, 'description': e.target.value})} />
+          <TextArea value={product.description ? product.description : ''} rows={10} showCount
+          placeholder={"2-1000个字符"} onChange={(e) => setProduct({...product, 'description': e.target.value})} />
           { fullDescHint ? <span className="hint">*&nbsp;商品描述信息长度必须为2-1000个字符</span> : null}
         </div>
         <div className="edit-item">
           <span>价格：</span>
-          <input className="price" type="text" name="price" value={product.price ? product.price : ''} 
-          onChange={(e) => setProduct({...product, 'price': e.target.value})} />元
+          <Input allowClear value={product.price ? product.price : ''} prefix="￥" suffix="元" style={{ width: "15%"}}
+          onChange={(e) => setProduct({...product, 'price': e.target.value})} />
           { priceHint ? <span className="hint">*&nbsp;请检查价格是否合法：大于0元且最多包含两位小数</span> : null }
         </div>
-        <input type="submit" value="保存" />
+        <Button type="primary" onClick={handleSubmit}>保存</Button>
       </form>
     </div>
   );

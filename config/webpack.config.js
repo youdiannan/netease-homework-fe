@@ -135,7 +135,7 @@ module.exports = function (webpackEnv) {
             // which in turn let's users customize the target behavior as per their needs.
             postcssNormalize(),
           ],
-          sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
+          sourceMap: shouldUseSourceMap,
         },
       },
     ].filter(Boolean);
@@ -144,7 +144,7 @@ module.exports = function (webpackEnv) {
         {
           loader: require.resolve('resolve-url-loader'),
           options: {
-            sourceMap: isEnvProduction ? shouldUseSourceMap : isEnvDevelopment,
+            sourceMap: shouldUseSourceMap ,
             root: paths.appSrc,
           },
         },
@@ -587,6 +587,28 @@ module.exports = function (webpackEnv) {
                 'sass-loader'
               ),
             },
+            // modify antd primary-color
+            // {
+            //   test: /\.less$/,
+            //   use: [
+            //     {
+            //       loader: "style-loader"
+            //     },
+            //     {
+            //       loader: "css-loader"
+            //     },
+            //     {
+            //       loader: "less-loader",
+            //       options: {
+            //         sourceMap: true,
+            //         modifyVars: {
+            //           '@primary-color': '#13c2c2',　　//修改antd主题色
+            //         },
+            //         javascriptEnabled: true,
+            //       }
+            //     }
+            //   ]
+            // },
             // "file" loader makes sure those assets get served by WebpackDevServer.
             // When you `import` an asset, you get its (virtual) filename.
             // In production, they would get copied to the `build` folder.

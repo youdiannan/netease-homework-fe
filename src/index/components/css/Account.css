@@ -1,11 +1,11 @@
 .account {
-    width: 85%;
     margin: 0 auto;
 }
 
 .account .a-head {
     position: relative;
-    padding: 2% 0;
+    padding-top: 20px;
+    padding-bottom: 5px;
 }
 
 .account .a-head::after {
@@ -20,20 +20,19 @@
 
 .account ul {
     position: relative;
-    margin-top: 2%;
 }
 
 .account ul .item {
     overflow: auto;
-    cursor: pointer;
+    padding: 10px 0;    
 }
 
 .account .p-img {
     display: block;
     float: left;
-    height: 100px;
-    width: 100px;
-    margin-right: 2%;
+    width: 200px;
+    min-height: 200px;
+    margin-right: 15px;
     border: 1px solid #d9d9d9;
     cursor: pointer;
 }
@@ -45,4 +44,13 @@
 .account .item {
     padding: 5px 5px;
     border-bottom: 1px solid #d9d9d9;
+}
+
+.account .total-price {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.account .price, .account .p-cnt, .account .price, .account .trans-time {
+    font-weight: bold;
 }

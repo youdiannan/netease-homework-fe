@@ -8,7 +8,11 @@ import Publish from './components/Publish';
 import { useState, useEffect } from 'react';
 import UserService from 'utils/UserService';
 import UserType from 'common/UserType';
+import '../../node_modules/antd/dist/antd.css';
 import './App.css';
+import { Layout } from 'antd';
+
+const { Header, Content } = Layout;
 
 function App() {
   const [user, setUser] = useState(null); // 初始时用户未登录
@@ -21,9 +25,10 @@ function App() {
     e.preventDefault();
     UserService.logout().then(res => setUser(null))
   }
-  
+
   return (
     <Router>
+      <Header>
         {/* Header部分 */}
         {
           user ?
@@ -31,7 +36,7 @@ function App() {
               <div className="header">
                 <div className="user">
                   {(!user.userType || user.userType == UserType.BUYER) ? <span>买家你好</span> : <span>卖家你好</span>}
-                  <span>{'，' + user.username || ''}!</span>
+                  <span>{'，' + user.username || ''}！</span>
                   {!user.username ? <Link to="/login">[登录]</Link> :
                     <a onClick={handleLogout} href="#">[退出]</a>}
                 </div>
@@ -60,8 +65,10 @@ function App() {
               </div>
             )
         }
-        
-        {/* 路由部分 */}
+      </Header>
+
+      {/* 路由部分 */}
+      <Content>
         <Switch>
           <Route path="/" exact={true}>
             <ProductList user={user}></ProductList>
@@ -85,6 +92,7 @@ function App() {
             <Publish user={user}></Publish>
           </Route>
         </Switch>
+      </Content>
     </Router>
   );
 }

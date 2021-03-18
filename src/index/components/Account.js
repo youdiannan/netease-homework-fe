@@ -2,6 +2,7 @@ import AccountService from 'utils/AccountService';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import './css/Account.css';
+import { List } from 'antd';
 
 
 function Account(props) {
@@ -17,11 +18,9 @@ function Account(props) {
             <div className="a-head">
                 <h2>已购买的商品</h2>
             </div>
-            <ul>
-                {accountItems}
-            </ul>
+            <List dataSource={accountData} renderItem={(item, index) => <AccountItem key={index} item={item} />} />
             <div className="total-price">
-                <span>总金额：￥{ (accountData.reduce((a, b) => a + b.totalAmount, 0)).toFixed(2) }</span>
+                <span>总金额：<span className="unit">￥</span><span className="value">{(accountData.reduce((a, b) => a + b.totalAmount, 0)).toFixed(2)}</span></span>
             </div>
         </div>
     )
@@ -31,22 +30,19 @@ function AccountItem(props) {
     let item = props.item;
     let history = useHistory();
     return (
-        <li className="item"  onClick={() => history.push({
-            pathname: `/product/${item.productId}`,
-            state: { buyAble: false }
-        })}>
+        <li className="item">
             {/* 商品图片 */}
-            <img src={item.imgUrl} className="p-img"></img>
+            <img src={item.imgUrl} className="p-img" onClick={() => history.push({
+                pathname: `/product/${item.productId}`,
+                state: { buyAble: false }
+            })} />
             <div className="p-container">
                 {/* 商品名 */}
                 <h4>{item.productName}</h4>
                 <span className="abstract">{item.productAbstract}</span>
-                <br/>
-                <span className="price">单价: {item.price}</span>
-                <div className="p-cnt">
-                    <span>数量：{item.count}</span>
-                </div>
-                <span className="trans-time">购买时间：{item.transTime}</span>
+                <span className="price">单价:<span className="unit">￥</span><span className="value">{item.price}</span></span>
+                <span className="p-cnt">数量：</span>{item.count}<br />
+                <span className="trans-time">购买时间：</span>{item.transTime}
             </div>
         </li>
     )

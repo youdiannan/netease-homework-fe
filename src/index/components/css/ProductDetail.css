@@ -1,65 +1,66 @@
-.p-container {
-    width: 80%;
-    margin: 0 auto;
-}
 
 /* 撑开高度 */
-.p-container .wrapper {
+.p-detail .wrapper {
     overflow: auto;
+    margin-top: 20px;
 }
 
-.p-container .img-container{
+.p-detail .img-container{
     float: left;
-    height: 40%;
-    width: 30%;
-    min-width: 300px;
-    min-height: 300px;
-    min-width: 300px;
-    height: 300px;
+    width: 280px;
     border: 1px solid #d9d9d9;
-    margin-right: 5%;
+    margin-right: 30px;
 }
 
+.p-detail .img-container img {
+    width: 280px;
+    height: 280px;
+}
 
-.p-container .cnt {
+.p-detail .cnt {
     float: left;
 }
 
-.p-container .cnt .abstract {
+.p-detail .cnt h2 {
+    font-size: 20px;
+}
+
+.p-detail .cnt .abstract {
     display: block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.p-detail .price {
     margin-top: 5%;
 }
 
-.p-container .price {
-    margin-top: 5%;
-}
-
-.p-container .price .unit {
+.p-detail .price .unit {
     color: #999;
 }
 
-.p-container .price .value {
+.p-detail .price .value {
     margin-left: 2%;
     color: #dd2147;
     font-size: 18px;
     font-weight: bold;
 }
 
-.p-container .num {
+.p-detail .num {
     margin-top: 5%;
 }
 
-.p-container .full-desc {
+.p-detail .full-desc {
     clear: both;
-    margin-top: 5%;
+    margin-top: 20px;
 }
 
-.p-container .desc-title {
+.p-detail .desc-title {
     position: relative;
     padding-bottom: 1%;
 }
 
-.p-container .desc-title::after {
+.p-detail .desc-title::after {
     content: "";
     width: 100%;
     display: block;
@@ -69,6 +70,36 @@
     border-bottom: 1px solid #d9d9d9;
 }
 
-.p-container .detail {
-    margin-top: 1%;
+.p-detail .detail {
+    margin-top: 20px;
 }
+
+.p-detail .detail pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.p-detail .option {
+    margin-top: 10px;
+}
+
+.p-detail .old-price {
+    margin-top: 10px;
+}
+
+.p-detail .bought {
+    font-size: 16px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.p-detail .old-price ul {
+    padding-left: 20px;
+}
+
+.p-detail .old-price li {
+    list-style: circle;
+}
+
+

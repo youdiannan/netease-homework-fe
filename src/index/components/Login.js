@@ -3,7 +3,7 @@ import UserService from "utils/UserService";
 import { useState, useEffect } from 'react';
 import ResponseStatus from 'common/ResponseStatus'
 import { useHistory } from 'react-router-dom';
-import './css/Login.css'
+import './css/Login.css';
 
 function Login() {
   let history = useHistory();

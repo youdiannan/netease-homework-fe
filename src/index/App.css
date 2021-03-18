@@ -1,17 +1,36 @@
+body {
+    background-color: #f3f3f3;
+}
+
 .main {
     width: 100%;
 }
 
-.header {
+header.ant-layout-header {
     background-color: #d22147;
-    padding: 10px 60px;
+    padding: 0;
+    padding: 0 8%;
+}
+
+main.ant-layout-content {
+    padding: 0 8%;
+}
+
+.header {
+    /* background-color: #d22147; */
+    /* padding: 10px 60px;
     margin-bottom: 20px;
-    line-height: 30px;
+    line-height: 30px; */
+    width: 100%; 
+    height: 100%;
+    margin: 0 auto;
     font-size: 16px;
     font-weight: 400;
     color: white;
     overflow: hidden;
 }
+
+
 
 .header .user {
     float: left;
@@ -38,4 +57,21 @@
 
 .header .nav a:hover {
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+
+h2 {
+    margin-bottom: 0;
+}
+
+/* 通用样式 */
+.unit {
+    padding-right: 5px;
+    color: #999;
+}
+
+.value {
+    font-size: 20px;
+    font-weight: bold;
+    color: #d22147;
 }
