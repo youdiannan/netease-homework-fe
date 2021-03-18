@@ -204,7 +204,7 @@ function Publish(props) {
             onChange={(e) => setProduct({...product, 'imgUrl': e.target.value})} />
           </div>
           <div style={{display: uploadType === "url" ? "none": "block"}}>
-            <Upload beforeUpload={file => {
+            <Upload maxCount={1} beforeUpload={file => {
               setFile(file);
               return false;
             }}>
