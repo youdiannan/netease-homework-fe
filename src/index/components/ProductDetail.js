@@ -83,7 +83,6 @@ function ProductDetail(props) {
                                 <span>购买数量：</span>
                                 <InputNumber min={0} value={count} onChange={(v) => {
                                     setCount(v);
-                                    console.log(count);
                                 }
                                 }></InputNumber>
                             </div> : null
